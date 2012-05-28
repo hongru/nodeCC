@@ -1,0 +1,21 @@
+{
+    "css-test": {
+        "source": "test/css/",
+        "target": "test/public/css/"
+    },
+    "normal-file-compress": {
+        "source": "test/test.js",
+        "target": "test/test.min.js"
+    },
+    "normal-dir-compress": {
+        "source": "test/js/",
+        "target": "test/public/js/"
+    },
+    "compress-and-merge": {
+        "source": [
+            "test/js/a.js",
+            "test/js/b.js"
+        ],
+        "target": "test/public/js/ab.js"
+    }
+}
