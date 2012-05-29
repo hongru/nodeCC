@@ -1,0 +1,1 @@
+var TESTA={};(function(a){a.path="a.js";a.func=function(){console.log(a.path)};a.more=function(){alert(66)}})(TESTA);

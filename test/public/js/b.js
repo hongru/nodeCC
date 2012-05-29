@@ -1,0 +1,1 @@
+var TESTB={};(function(a){a.path="b.js";a.say=function(){alert("hello world")}})(TESTB);

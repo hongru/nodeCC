@@ -42,7 +42,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
         }
     }
     
-    function compressFile (from, to) {
+    function compressFile (from, to, licence) {
         to = to || from;
         // check path
         var dirpath = to.substring(0, to.lastIndexOf('/'));
@@ -62,6 +62,10 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
             util.print(dashed);
             util.print(from + ' Compressed Finished! ==> ' + to + '\n');
             util.print('YUI Compressor exit with code: ' + code + '\n');
+            if (licence && path.existsSync(licence)) {
+                var newCon = fs.readFileSync(licence, 'utf8') + '\n' + fs.readFileSync(to, 'utf8');
+                fs.writeFileSync(to, newCon, 'utf8');
+            }
         });
 
     }
@@ -69,6 +73,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
     function getPath (k) {
         var obj = $.configContent[k],
             sPath = obj.source,
+            licence = obj.licence,
             tPath = obj.target;
 
         if (typeof sPath == 'string') {
@@ -78,23 +83,24 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
                 // dir
                 var files = fs.readdirSync(sPath);
                 files.forEach(function (file) {
-                    compressFile(sPath + file, tPath + file);
+                    compressFile(sPath + file, tPath + file, licence);
                 });
             } else {
                 // file
-                compressFile(sPath, tPath);
+                compressFile(sPath, tPath, licence);
             }
         } else if (typeof sPath == 'object' && sPath.forEach) {
+            path.existsSync(tPath) && fs.unlinkSync(tPath);
             // merge and compress
             util.print(k + 'merging begin! \n');
             var fd = fs.openSync(tPath, 'a', 0666);
             sPath.forEach(function (p) {
-                fs.writeSync(fd, '\n' + fs.readFileSync(p).toString(), null, 'utf8');
+                fs.writeSync(fd, '\n' + fs.readFileSync(p, 'utf8').toString(), null, 'utf8');
             });
             fs.closeSync(fd);
             util.print(k + 'merged finish!\n');
             // compress
-            compressFile(tPath);
+            compressFile(tPath, null, licence);
         }
     }
 
@@ -103,7 +109,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
             throw 'config.json missed!'
         }
         
-        var content = fs.readFileSync($.configFile).toString();
+        var content = fs.readFileSync($.configFile, 'utf8').toString();
         try {
             content = JSON.parse(content);
         } catch (e) {
