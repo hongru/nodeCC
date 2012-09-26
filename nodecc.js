@@ -34,7 +34,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
         dirs.length && mkdir(dirs.shift());
         // mkdir
         function mkdir (d) {
-            if (!path.existsSync(d)) {
+            if (!fs.existsSync(d)) {
                 fs.mkdirSync(d, mode);
             }
             
@@ -46,7 +46,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
         to = to || from;
         // check path
         var dirpath = to.substring(0, to.lastIndexOf('/'));
-        !path.existsSync(dirpath) && mkdirpSync(dirpath);
+        !fs.existsSync(dirpath) && mkdirpSync(dirpath);
         
         // java -jar yuicompressor-x.y.z.jar myfile.js -o myfile-min.js --charset utf-8
         util.print(from + ' Compressed Begin!\n');
@@ -62,7 +62,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
             util.print(dashed);
             util.print(from + ' Compressed Finished! ==> ' + to + '\n');
             util.print('YUI Compressor exit with code: ' + code + '\n');
-            if (licence && path.existsSync(licence)) {
+            if (licence && fs.existsSync(licence)) {
                 var newCon = fs.readFileSync(licence, 'utf8') + '\n' + fs.readFileSync(to, 'utf8');
                 fs.writeFileSync(to, newCon, 'utf8');
             }
@@ -90,7 +90,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
                 compressFile(sPath, tPath, licence);
             }
         } else if (typeof sPath == 'object' && sPath.forEach) {
-            path.existsSync(tPath) && fs.unlinkSync(tPath);
+            fs.existsSync(tPath) && fs.unlinkSync(tPath);
             // merge and compress
             util.print(k + 'merging begin! \n');
             var fd = fs.openSync(tPath, 'a', 0666);
@@ -105,7 +105,7 @@ nodecc.yuiCompressorPath = './tools/yuicompressor-2.4.6.jar';
     }
 
     function readConfig () {
-        if (!path.existsSync($.configFile)) {
+        if (!fs.existsSync($.configFile)) {
             throw 'config.json missed!'
         }
         

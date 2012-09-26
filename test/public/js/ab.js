@@ -1,1 +1,0 @@
-var TESTA={};(function(a){a.path="a.js";a.func=function(){console.log(a.path)};a.more=function(){alert(66)}})(TESTA);var TESTB={};(function(a){a.path="b.js";a.say=function(){alert("hello world")}})(TESTB);
