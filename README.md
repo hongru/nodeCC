@@ -1,4 +1,4 @@
-the version using UglifyJS[do not need `jar` -- https://github.com/hongru/Node-CC
+the version using UglifyJS [do not need `jar` ] -- https://github.com/hongru/Node-CC
 
 NodeCC
 ======
